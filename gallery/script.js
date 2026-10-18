@@ -47,12 +47,14 @@ function showImages(images){
         const card=document.createElement("div");
         card.className="icon";
         card.innerHTML=`
-            <img src="${image.download_url}" alt="">
+            <img src="./thumbs/${encodeURIComponent(image.name.replace(/\.[^.]+$/, ""))}.webp" loading="lazy" decoding="async" alt="">
             <button class="copy" title="Copier l'URL">⧉</button>
         `;
         const button=card.querySelector(".copy");
 
         const img = card.querySelector("img");
+        // si la miniature manque, on affiche l'image en taille réelle
+        img.onerror = ()=>{ img.onerror = null; img.src = image.download_url; };
 
         img.onclick = ()=>{
             currentImageIndex = images.indexOf(image);
